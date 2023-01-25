@@ -6,6 +6,7 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
+		"deploy": "sh deploy.sh",
 		"preview": "vite preview",
 		"lint": "npx eslint . --ignore-path .gitignore",
 		"format": "npx prettier --write . --ignore-path .gitignore",
