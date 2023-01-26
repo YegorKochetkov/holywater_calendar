@@ -3,18 +3,11 @@
 		"browser": true,
 		"es2021": true
 	},
-	"extends": [
-		"plugin:react/recommended",
-		"xo"
-	],
+	"extends": ["plugin:react/recommended", "xo"],
 	"overrides": [
 		{
-			"extends": [
-				"xo-typescript"
-			],
-			"files": [
-				"src/**/*.{ts,tsx,js,jsx,cjs}"
-			],
+			"extends": ["xo-typescript"],
+			"files": ["src/**/*.{ts,tsx,js,jsx,cjs}"],
 			"rules": {
 				"arrow-parens": "off",
 				"quotes": "off",
@@ -32,12 +25,8 @@
 		"ecmaVersion": "latest",
 		"sourceType": "module"
 	},
-	"plugins": [
-		"react"
-	],
-	"ignorePatterns": [
-		"vite-env.d.ts"
-	],
+	"plugins": ["react"],
+	"ignorePatterns": ["vite-env.d.ts"],
 	"settings": {
 		"react": {
 			"fragment": "Fragment",

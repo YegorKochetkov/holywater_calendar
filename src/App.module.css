@@ -1,0 +1,4 @@
+.app {
+	display: grid;
+	grid-template-rows: 5rem calc(100vh - 5rem);
+}
