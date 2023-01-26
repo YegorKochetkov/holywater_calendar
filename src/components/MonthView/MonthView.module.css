@@ -21,6 +21,12 @@
 
 .date {
 	display: flex;
-	flex-wrap: wrap;
+	flex-direction: column;
 	justify-content: space-between;
+}
+
+@media (min-width: 600px) {
+	.date {
+		flex-direction: row;
+	}
 }
