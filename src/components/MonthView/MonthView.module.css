@@ -1,0 +1,26 @@
+.monthView {
+	display: grid;
+	grid-template-columns: repeat(7, calc(100% / 7));
+}
+
+.cell {
+	min-height: 5rem;
+	padding: 0.5rem;
+	border: 1px solid rgba(119, 136, 153, 0.378);
+}
+
+.current {
+	color: var(--fontColorDarkTheme);
+	background-color: #fffeee;
+}
+
+.anotherMonth {
+	opacity: 0.5;
+	background-color: rgba(119, 136, 153, 0.44);
+}
+
+.date {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
