@@ -9,8 +9,8 @@
 	--backgroundColorDarkTheme: #ffffff;
 
 	font-family: Roboto, Inter, Avenir, Helvetica, Arial, sans-serif;
-	font-size: 16px;
-	line-height: 24px;
+	font-size: 1rem;
+	line-height: 1.5rem;
 	font-weight: 400;
 
 	color-scheme: light dark;
