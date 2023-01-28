@@ -1,0 +1,30 @@
+.overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 10;
+
+	background-color: #000000;
+	opacity: 0.5;
+}
+
+.modal {
+	position: absolute;
+	top: 10%;
+	left: 25%;
+	z-index: 20;
+
+	width: 50%;
+	padding: 1rem 2rem;
+
+	color: var(--fontColor);
+	background-color: var(--backgroundColor);
+	border-radius: 5px;
+}
+
+.modal_title {
+	margin: 0;
+}
+
+.modal_inner {
+	display: flex;
+}
