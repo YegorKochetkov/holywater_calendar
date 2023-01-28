@@ -1,0 +1,15 @@
+.title {
+	padding: 0 0.3rem;
+
+	border: 1px solid var(--fontColorDarkTheme);
+	border-radius: 0.2rem;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.title:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
