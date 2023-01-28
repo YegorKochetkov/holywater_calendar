@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import styles from "./DateNavigation.module.css";
 
-type DateFilterProps = {
+type DateNavigationProps = {
 	date: Date;
 	onChangeDate: React.Dispatch<React.SetStateAction<Date>>;
+	toggleModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 enum Direction {
@@ -11,7 +12,11 @@ enum Direction {
 	next = "next",
 }
 
-function DateNavigation({ date, onChangeDate }: DateFilterProps) {
+function DateNavigation({
+	date,
+	onChangeDate,
+	toggleModal,
+}: DateNavigationProps) {
 	function handleMonthChange(direction: Direction) {
 		const newDate = new Date(date);
 
@@ -38,6 +43,14 @@ function DateNavigation({ date, onChangeDate }: DateFilterProps) {
 
 	return (
 		<div className={styles.dateNavigation}>
+			<button
+				className="add"
+				onClick={() => {
+					toggleModal(true);
+				}}
+			>
+				Add
+			</button>
 			<button
 				className="back"
 				onClick={() => {
