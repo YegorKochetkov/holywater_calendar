@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { z, ZodError } from "zod";
-import { dateToInputFormat } from "../components/EventForm/EventForm";
+import { dateToInputFormat } from "../utils/dateToInputFormat";
 
 const apiUrl = "https://api";
 
