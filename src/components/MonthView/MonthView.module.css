@@ -4,15 +4,23 @@
 }
 
 .cell {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
 	min-height: 5rem;
 	padding: 0.5rem;
 	border: 1px solid rgba(119, 136, 153, 0.378);
-	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 .current {
 	color: var(--fontColorDarkTheme);
 	background-color: #fffeee;
+}
+
+.selected {
+	border-color: crimson;
 }
 
 .anotherMonth {
