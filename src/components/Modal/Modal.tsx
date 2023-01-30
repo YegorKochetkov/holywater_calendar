@@ -1,27 +1,28 @@
-import React, { Fragment } from "react";
+import React, { type ReactNode, Fragment } from "react";
 import styles from "./Modal.module.css";
 
-type ModalType = {
-	isOpen: boolean;
-	toggleModal: React.Dispatch<React.SetStateAction<boolean>>;
+type ModalPropsType = {
+	children: ReactNode;
+	onClose: () => void;
 };
+function Modal({ children, onClose }: ModalPropsType) {
+	const handleKeyEsc = (key: string) => {
+		if (key === "Escape") {
+			onClose();
+		}
+	};
 
-function Modal({ isOpen, toggleModal }: ModalType) {
-	return isOpen ? (
+	return (
 		<Fragment>
+			<div className={styles.overlay} onClick={onClose} />
 			<div
-				className={styles.overlay}
-				onClick={() => {
-					toggleModal(false);
-				}}
-			/>
-			<div className={styles.modal}>
-				<h3 className={styles.modal_title}>title</h3>
-				{/* <h3>{title}</h3> */}
-				<div className={styles.modal_inner}>children</div>
+				className={styles.modal}
+				onKeyDown={(event) => handleKeyEsc(event.key)}
+			>
+				{children}
 			</div>
 		</Fragment>
-	) : null;
+	);
 }
 
 export default Modal;
