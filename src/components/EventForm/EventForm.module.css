@@ -1,0 +1,37 @@
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+
+	overflow: hidden;
+}
+
+.form_field {
+	display: flex;
+	flex-direction: column;
+}
+
+.form_input,
+.form_textarea {
+	padding: 0.5rem;
+	font-size: 1rem;
+}
+
+.form_textarea {
+	resize: vertical;
+}
+
+.form_buttons {
+	display: flex;
+	align-self: flex-end;
+	gap: 1rem;
+}
+
+.form_button {
+	padding: 0.5rem;
+}
+
+.form_title {
+	margin: 0;
+	margin-bottom: 0.5rem;
+}
