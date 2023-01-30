@@ -1,8 +1,9 @@
 import React, { Fragment, useEffect } from "react";
-import MonthView, { mock } from "./components/MonthView/MonthView";
+import MonthView from "./components/MonthView/MonthView";
 import styles from "./App.module.css";
 import DateNavigation from "./components/DateNavigation/DateNavigation";
 import useCalendarStore, { type EventType } from "./store/calendarStore";
+import { mock } from "./utils/mock";
 
 function App() {
 	const events = useCalendarStore((state) => state.events);
