@@ -1,79 +1,118 @@
-import React, { useState } from "react";
+import React, { memo, useCallback, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
+import { IconButton } from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
+import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
+import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+import DatePicker from "react-datepicker";
+import Modal from "../Modal/Modal";
+import useCalendarStore from "../../store/calendarStore";
+import EventForm from "../EventForm/EventForm";
 import styles from "./DateNavigation.module.css";
-
-type DateNavigationProps = {
-	date: Date;
-	onChangeDate: React.Dispatch<React.SetStateAction<Date>>;
-	toggleModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import "react-datepicker/dist/react-datepicker.css";
+import { toBeginningOfDay } from "../../utils/toBeginningOfDay";
+import { dateToInputFormat } from "../../utils/dateToInputFormat";
 
 enum Direction {
 	prev = "prev",
 	next = "next",
 }
 
-function DateNavigation({
-	date,
-	onChangeDate,
-	toggleModal,
-}: DateNavigationProps) {
-	function handleMonthChange(direction: Direction) {
-		const newDate = new Date(date);
+function DateNavigation() {
+	const [showEventForm, setShowEventForm] = useState(false);
+	const selectedDate = useCalendarStore((state) => state.selectedDate);
+	const setSelectedDate = useCalendarStore((state) => state.setSelectedDate);
+	const date = useMemo(() => new Date(selectedDate), [selectedDate]);
 
-		if (direction === Direction.prev) {
-			if (date.getMonth() === 0) {
-				newDate.setMonth(11);
-				newDate.setFullYear(date.getFullYear() - 1);
-			} else {
-				newDate.setMonth(date.getMonth() - 1);
-			}
+	function handleDatePick(value: string) {
+		if (value) {
+			setSelectedDate(value);
 		}
-
-		if (direction === Direction.next) {
-			if (date.getMonth() === 11) {
-				newDate.setMonth(0);
-				newDate.setFullYear(date.getFullYear() + 1);
-			} else {
-				newDate.setMonth(date.getMonth() + 1);
-			}
-		}
-
-		onChangeDate(newDate);
 	}
+
+	const handleMonthChange = useCallback(
+		(direction: Direction) => {
+			const newDate = toBeginningOfDay(new Date(selectedDate));
+			newDate.setDate(1);
+
+			if (direction === Direction.prev) {
+				if (date.getMonth() === 0) {
+					newDate.setFullYear(date.getFullYear() - 1);
+					newDate.setMonth(11);
+				} else {
+					newDate.setMonth(date.getMonth() - 1);
+				}
+			}
+
+			if (direction === Direction.next) {
+				if (date.getMonth() === 11) {
+					newDate.setFullYear(date.getFullYear() + 1);
+					newDate.setMonth(0);
+				} else {
+					newDate.setMonth(date.getMonth() + 1);
+				}
+			}
+
+			setSelectedDate(dateToInputFormat(newDate));
+		},
+		[selectedDate]
+	);
 
 	return (
 		<div className={styles.dateNavigation}>
-			<button
-				className="add"
-				onClick={() => {
-					toggleModal(true);
-				}}
+			<IconButton
+				size="large"
+				color="primary"
+				aria-label="add event"
+				onClick={() => setShowEventForm(true)}
+				sx={{ marginRight: "auto" }}
 			>
-				Add
-			</button>
-			<button
-				className="back"
-				onClick={() => {
-					handleMonthChange(Direction.prev);
-				}}
+				<AddCircleIcon sx={{ width: "2.5rem", height: "2.5rem" }} />
+			</IconButton>
+
+			{showEventForm &&
+				createPortal(
+					<Modal onClose={() => setShowEventForm(false)}>
+						<EventForm onClose={() => setShowEventForm(false)} />
+					</Modal>,
+					document.body
+				)}
+
+			<IconButton
+				size="large"
+				color="primary"
+				aria-label="set previous month"
+				onClick={() => handleMonthChange(Direction.prev)}
 			>
-				prev
-			</button>
+				<ArrowBackIosNewOutlinedIcon />
+			</IconButton>
 
 			<div>
 				{new Intl.DateTimeFormat("en-US", { month: "long" }).format(date)}{" "}
 				{date.getFullYear()}
 			</div>
 
-			<button
-				onClick={() => {
-					handleMonthChange(Direction.next);
-				}}
+			<IconButton
+				size="large"
+				color="primary"
+				aria-label="set next month"
+				onClick={() => handleMonthChange(Direction.next)}
 			>
-				next
-			</button>
+				<ArrowForwardIosOutlinedIcon />
+			</IconButton>
+
+			<DatePicker
+				withPortal
+				onChange={(date) => date && handleDatePick(dateToInputFormat(date))}
+				customInput={
+					<IconButton size="large" color="primary" aria-label="set next month">
+						<CalendarTodayOutlinedIcon />
+					</IconButton>
+				}
+			/>
 		</div>
 	);
 }
 
-export default DateNavigation;
+export default memo(DateNavigation);
