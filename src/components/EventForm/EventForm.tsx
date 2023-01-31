@@ -4,6 +4,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import { dateToInputFormat } from "../../utils/dateToInputFormat";
 import useCalendarStore, { type EventType } from "../../store/calendarStore";
 import styles from "./EventForm.module.css";
+import { useNavigate } from "react-router-dom";
 
 type EventFormType = {
 	id?: number;
@@ -23,6 +24,7 @@ function EventForm({ id, onClose }: EventFormType) {
 		dateToInputFormat(event ? new Date(event.from) : new Date())
 	);
 	const [isValidForm, setIsValidForm] = useState(false);
+	const navigate = useNavigate();
 
 	const handleFormChange: FormEventHandler<HTMLFormElement> = (e) => {
 		const form = new FormData(e.currentTarget);
@@ -57,6 +59,7 @@ function EventForm({ id, onClose }: EventFormType) {
 		}
 
 		onClose();
+		navigate(-1);
 	};
 
 	return (

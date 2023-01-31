@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo, useState } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { IconButton } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -6,6 +6,7 @@ import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutl
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import DatePicker from "react-datepicker";
+import { useNavigate, useParams } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import useCalendarStore from "../../store/calendarStore";
 import EventForm from "../EventForm/EventForm";
@@ -20,15 +21,30 @@ enum Direction {
 }
 
 function DateNavigation() {
-	const [showEventForm, setShowEventForm] = useState(false);
+	const { eventId } = useParams();
+	const [showEventForm, setShowEventForm] = useState(eventId === "new");
 	const selectedDate = useCalendarStore((state) => state.selectedDate);
 	const setSelectedDate = useCalendarStore((state) => state.setSelectedDate);
 	const date = useMemo(() => new Date(selectedDate), [selectedDate]);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (eventId === "new") {
+			setShowEventForm(true);
+		} else {
+			setShowEventForm(false);
+		}
+	}, [eventId]);
 
 	function handleDatePick(value: string) {
 		if (value) {
 			setSelectedDate(value);
+			navigate(`/${value}`);
 		}
+	}
+
+	function handleAddEvent() {
+		navigate("/events/new");
 	}
 
 	const handleMonthChange = useCallback(
@@ -54,7 +70,9 @@ function DateNavigation() {
 				}
 			}
 
-			setSelectedDate(dateToInputFormat(newDate));
+			const stringDate = dateToInputFormat(newDate);
+			setSelectedDate(stringDate);
+			navigate(`/${stringDate}`);
 		},
 		[selectedDate]
 	);
@@ -65,7 +83,7 @@ function DateNavigation() {
 				size="large"
 				color="primary"
 				aria-label="add event"
-				onClick={() => setShowEventForm(true)}
+				onClick={() => handleAddEvent()}
 				sx={{ marginRight: "auto" }}
 			>
 				<AddCircleIcon sx={{ width: "2.5rem", height: "2.5rem" }} />
