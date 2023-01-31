@@ -2,7 +2,7 @@ import React, { memo, useMemo } from "react";
 import useCalendarStore, { type EventType } from "../../store/calendarStore";
 import { findEventsForDay } from "../../utils/findEventsForDay";
 import { toBeginningOfDay } from "../../utils/toBeginningOfDay";
-import EventShort from "../Event/Event";
+import Event from "../Event/Event";
 import styles from "./MonthView.module.css";
 
 const weeksRows = 6;
@@ -10,13 +10,10 @@ const daysInWeek = 7;
 const dayInMilliseconds = 1000 * 3600 * 24;
 const indexOfMonday = 1;
 
-type MonthViewProps = {
-	events: EventType[];
-};
-
-function MonthView({ events }: MonthViewProps) {
+function MonthView() {
 	const currentDay = toBeginningOfDay(new Date());
 	const selectedDate = useCalendarStore((state) => state.selectedDate);
+	const events = useCalendarStore((state) => state.events) ?? [];
 	const date = useMemo(
 		() => toBeginningOfDay(new Date(selectedDate)),
 		[selectedDate]
@@ -70,7 +67,7 @@ function MonthView({ events }: MonthViewProps) {
 						</span>
 					</div>
 					{currDate.events.map((event) => (
-						<EventShort key={event.id} id={event.id} />
+						<Event key={event.id} id={event.id} />
 					))}
 				</div>
 			))}
